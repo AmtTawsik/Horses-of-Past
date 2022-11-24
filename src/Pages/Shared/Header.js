@@ -10,7 +10,6 @@ const Header = () => {
 
   const navigation = [
     { title: "Home", path: "/home" },
-    { title: "Services", path: "/services" },
     { title: "Blogs", path: "/blog" },
   ];
 
@@ -92,19 +91,13 @@ const Header = () => {
             {user?.uid ? (
               <>
                 <li>
-                  <Link to="/myreviews">
+                  <Link to="/dashboard">
                     <button className="px-5 py-2 rounded-lg text-xl font-bold text-gray-800 hover:text-gray-50 hover:bg-purple-600">
-                      My reviews
+                      Dashboard
                     </button>
                   </Link>
                 </li>
-                <li>
-                  <Link to="/addservice">
-                    <button className="px-5 py-2 rounded-lg text-xl font-bold text-gray-800 hover:text-gray-50 hover:bg-fuchsia-600">
-                      Add service
-                    </button>
-                  </Link>
-                </li>
+
                 <li>
                   <div
                     className="avatar tooltip md:tooltip-bottom tooltip-right tooltip-secondary"

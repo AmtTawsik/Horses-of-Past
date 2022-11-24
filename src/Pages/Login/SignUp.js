@@ -24,10 +24,10 @@ const SignUp = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
+        handleUpdateUserProfile(name, photo);
+        saveUser(name, email, role);
         toast.success("User Created Successfully");
         form.reset();
-        handleUpdateUserProfile(name, photo);
-        saveUser(name, email);
       })
       .catch((error) => console.log(error));
   };
@@ -43,9 +43,9 @@ const SignUp = () => {
       .catch((e) => console.log(e));
   };
 
-  const saveUser = (name, email) => {
-    const user = { name, email };
-    fetch("https://doctors-portal-server-six-nu.vercel.app/users", {
+  const saveUser = (name, email, role) => {
+    const user = { name, email, role };
+    fetch("http://localhost:5000/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -172,9 +172,9 @@ const SignUp = () => {
                 </label>
                 <select name="role" className="select select-bordered block w-full mt-1 p-2 border-gray-300 rounded-md shadow-lg text-black focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                   <option selected>
-                    Buyer
+                    buyer
                   </option>
-                  <option>Seller</option>
+                  <option>seller</option>
                 </select>
               </div>
 
