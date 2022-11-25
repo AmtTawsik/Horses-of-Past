@@ -62,7 +62,7 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
-
+        saveUser(user.displayName,user.email)
         // jwt token start
         const currentUser = {
           email: user.email,
@@ -84,6 +84,21 @@ const Login = () => {
           });
       })
       .catch((error) => console.log(error));
+  };
+
+  const saveUser = (name, email) => {
+    const user = { name, email, role:'buyer' };
+    fetch("http://localhost:5000/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
   };
   return (
     <>
