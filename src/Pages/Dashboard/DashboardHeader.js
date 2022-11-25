@@ -46,10 +46,10 @@ const DashboardHeader = () => {
             {
                 role === 'seller' && <div>
                 <li>
-                  <Link>Add Product</Link>
+                  <Link to='/dashboard/addproduct'>Add Product</Link>
                 </li>
                 <li>
-                  <Link to={`/dashboard/myproducts/${user?.email}`}>My Products</Link>
+                  <Link to={`/dashboard/myproducts`}>My Products</Link>
                 </li>
                 <li>
                   <Link>My Buyers</Link>

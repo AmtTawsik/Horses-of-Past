@@ -24,7 +24,7 @@ const MyOrders = () => {
                 <td></td>
                 <td><img className='rounded-xl' style={{width:'100px'}} src={order.img} alt="" /></td>
                 <td><span className='text-3xl'>{order.productName}</span></td>
-                <td><span className='text-3xl'>{order.resalePrice}</span></td>
+                <td><span className='text-3xl'>${order.resalePrice}</span></td>
                 <td><button className="btn btn-md  btn-primary">Make Payment</button></td>
               </tr>
             ))}

@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Main from "../layouts/Main";
+import AddProduct from "../Pages/Dashboard/AddProduct";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import MyOrders from "../Pages/Dashboard/MyOrders";
 import MyProducts from "../Pages/Dashboard/MyProducts";
@@ -51,9 +52,12 @@ export const routes = createBrowserRouter([
                 loader:({params})=>fetch(`http://localhost:5000/booking/${params.email}`)
             },
             {
-                path:`/dashboard/myproducts/:email`,
-                element:<MyProducts></MyProducts>,
-                loader:({params})=>fetch(`http://localhost:5000/products/${params.email}`)
+                path:`/dashboard/myproducts/`,
+                element:<MyProducts></MyProducts>
+            },
+            {
+                path:`/dashboard/addproduct`,
+                element:<AddProduct></AddProduct>
             },
         ]
     }
