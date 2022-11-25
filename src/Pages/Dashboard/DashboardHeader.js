@@ -1,10 +1,16 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 
 const DashboardHeader = () => {
-  const {user} = useContext(AuthContext);
-    const role = 'buyer';
+  const {user,logOut} = useContext(AuthContext);
+    const role = 'seller';
+    const navigate = useNavigate();
+
+    const handleLogout = () =>{
+      logOut();
+      navigate('/login')
+    }
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -43,7 +49,7 @@ const DashboardHeader = () => {
                   <Link>Add Product</Link>
                 </li>
                 <li>
-                  <Link>My Products</Link>
+                  <Link to={`/dashboard/myproducts/${user?.email}`}>My Products</Link>
                 </li>
                 <li>
                   <Link>My Buyers</Link>
@@ -63,7 +69,7 @@ const DashboardHeader = () => {
             }
 
             <li>
-                <Link>Log Out</Link>
+                <Link onClick={handleLogout}>Log Out</Link>
             </li>
           </ul>
         </div>
