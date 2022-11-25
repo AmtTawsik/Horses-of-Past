@@ -4,7 +4,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 const DashboardHeader = () => {
   const {user,logOut} = useContext(AuthContext);
-    const role = 'seller';
+    const role = 'admin';
     const navigate = useNavigate();
 
     const handleLogout = () =>{
@@ -60,10 +60,10 @@ const DashboardHeader = () => {
             {
                 role === 'admin' && <div>
                 <li>
-                  <Link>All Buyers</Link>
+                  <Link to='/dashboard/allbuyer'>All Buyers</Link>
                 </li>
                 <li>
-                  <Link>All Sellers</Link>
+                  <Link to='/dashboard/allseller'>All Sellers</Link>
                 </li>
               </div>
             }
