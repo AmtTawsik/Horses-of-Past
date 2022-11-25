@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import toast from "react-hot-toast";
 import blueTick from "../../assects/blueTick.png";
 import { AuthContext } from "../../contexts/AuthContext";
 
@@ -33,8 +34,8 @@ const Product = ({ product }) => {
       number,
       location,
       img,
-    }
-    console.log(booking)
+    };
+    console.log(booking);
     fetch("http://localhost:5000/booking", {
       method: "POST",
       headers: {
@@ -43,9 +44,13 @@ const Product = ({ product }) => {
       body: JSON.stringify(booking),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        if(data.acknowledged){
+          toast.success('Product added Successfuly!')
+          form.reset();
+        }
+      })
       .catch((err) => console.error(err));
-  
   };
   return (
     <div>
@@ -103,7 +108,7 @@ const Product = ({ product }) => {
               <div className="flex flex-col items-start">
                 <input
                   readOnly
-                  defaultValue={user.displayName}
+                  defaultValue={user?.displayName}
                   type="text"
                   name="name"
                   className="input input-bordered input-primary w-full"
@@ -122,7 +127,7 @@ const Product = ({ product }) => {
               <div className="flex flex-col items-start">
                 <input
                   readOnly
-                  defaultValue={user.email}
+                  defaultValue={user?.email}
                   type="text"
                   name="email"
                   className="input input-bordered input-primary w-full "
@@ -202,11 +207,16 @@ const Product = ({ product }) => {
                 />
               </div>
             </div>
-            <button type="submit" className="modal-action">
+            <div className="flex items-end justify-between">
               <label htmlFor="my-modal" className="btn">
-                Confirm Submit
+                Cancel
               </label>
-            </button>
+              <button type="submit" className="modal-action">
+                <label htmlFor="my-modal" className="btn">
+                  Confirm Submit
+                </label>
+              </button>
+            </div>
           </form>
         </div>
       </div>
