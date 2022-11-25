@@ -13,7 +13,7 @@ const Categories = () => {
       <h2 className="text-center font-bold text-4xl mt-5">All Categories</h2>
       <div className="grid md:grid-cols-3 gap-4 my-7 w-5/6 mx-auto">
         {categories.map((category) => (
-          <div key={category._id} className="card card-compact w-96 bg-base-100 shadow-2xl">
+          <div key={category._id} className="card card-compact w-100 bg-base-100 shadow-2xl">
           <figure><img className="w-full" style={{height:'220px'}} src={category.picture} alt="Shoes" /></figure>
           <div className="card-body">
             <h2 className="card-title">{category.brandName}</h2>

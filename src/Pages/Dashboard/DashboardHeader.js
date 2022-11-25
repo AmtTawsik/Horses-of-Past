@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const DashboardHeader = () => {
-    const role = 'admin';
+  const {user} = useContext(AuthContext);
+    const role = 'buyer';
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -30,7 +32,7 @@ const DashboardHeader = () => {
             {
                 role === 'buyer' && <div>
                 <li>
-                  <Link>My Orders</Link>
+                  <Link to={`/dashboard/myorders/${user?.email}`}>My Orders</Link>
                 </li>
               </div>
             }
@@ -67,7 +69,7 @@ const DashboardHeader = () => {
         </div>
       </div>
       <div className="navbar-center">
-        <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+        <a className="btn btn-ghost normal-case text-xl">Dashboard</a>
       </div>
       <div className="navbar-end">
         <button className="btn btn-ghost btn-circle">
