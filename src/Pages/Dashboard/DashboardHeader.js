@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import Loading from "../Shared/Loading";
 
 const DashboardHeader = () => {
   const {user,logOut} = useContext(AuthContext);
@@ -23,6 +24,9 @@ const DashboardHeader = () => {
     const role = currentUser.role;
     const handleLogout = () =>{
       logOut();
+    }
+    if(isLoading){
+      <Loading></Loading>
     }
   return (
     <div className="navbar bg-base-100">

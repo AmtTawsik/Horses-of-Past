@@ -62,6 +62,7 @@ const AuthProvider = ({ children }) => {
     return () => unsubscrib();
   }, []);
 
+  // const email = user.email;
   // All auth information is here
   const authInfo = {
     user,

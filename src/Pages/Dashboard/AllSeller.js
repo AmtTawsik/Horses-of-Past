@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { async } from "@firebase/util";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Loading from "../Shared/Loading";
 
 const AllSeller = () => {
   const {
@@ -43,6 +44,10 @@ const AllSeller = () => {
             }
           });
   };
+
+  if(isLoading){
+    <Loading></Loading>
+  }
 
   return (
     <div>

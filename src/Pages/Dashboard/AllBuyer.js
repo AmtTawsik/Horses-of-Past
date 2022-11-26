@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import Loading from "../Shared/Loading";
 
 const AllBuyer = () => {
   const {
@@ -29,6 +30,10 @@ const AllBuyer = () => {
             }
           });
   };
+
+  if(isLoading){
+    <Loading></Loading>
+  }
   return (
     <div>
       <h2 className="text-4xl text-center font-bold mb-5">All Buyer</h2>
