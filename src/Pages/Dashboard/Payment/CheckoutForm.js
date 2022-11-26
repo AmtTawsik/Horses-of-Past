@@ -58,6 +58,12 @@ const CheckoutForm = ({bookingData}) => {
         },
       );
 
+      if(confirmError){
+        setCardError(confirmError.message);
+        return;
+      }
+      console.log('paymentIntent',paymentIntent)
+
   };
 
   return (
