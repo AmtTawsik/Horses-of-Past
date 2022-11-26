@@ -87,7 +87,7 @@ const Login = () => {
   };
 
   const saveUser = (name, email) => {
-    const user = { name, email, role:'buyer' };
+    const user = { name, email, role:'buyer',isVarified:false };
     fetch("http://localhost:5000/users", {
       method: "POST",
       headers: {

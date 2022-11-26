@@ -1,15 +1,31 @@
-import React, { useContext } from "react";
+import { async } from "@firebase/util";
+import { useQuery } from "@tanstack/react-query";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 
 const DashboardHeader = () => {
-  const {user,logOut} = useContext(AuthContext);
-    const role = 'admin';
+  const {user,logOut,loading} = useContext(AuthContext);
+  console.log(user?.email)
+    
     const navigate = useNavigate();
 
+    const {
+      data: currentUser = {},
+      refetch,
+      isLoading,
+    } = useQuery({
+      queryKey: ["allbuyer"],
+      queryFn: async () => {
+        const res = await fetch(`http://localhost:5000/users/${user.email}`);
+        const data = res.json();
+        return data;
+      },
+    });
+
+    const role = currentUser.role;
     const handleLogout = () =>{
       logOut();
-      navigate('/login')
     }
   return (
     <div className="navbar bg-base-100">
@@ -67,15 +83,13 @@ const DashboardHeader = () => {
                 </li>
               </div>
             }
-
-            <li>
-                <Link onClick={handleLogout}>Log Out</Link>
-            </li>
           </ul>
         </div>
       </div>
       <div className="navbar-center">
-        <a className="btn btn-ghost normal-case text-xl">Dashboard</a>
+        <Link to='/' className="btn btn-ghost normal-case text-xl">Home</Link>
+        <Link to='/dashboard' className="btn btn-ghost normal-case text-xl">Dashboard</Link>
+        <Link to='/login' className="btn btn-ghost normal-case text-xl" onClick={handleLogout}>Log Out</Link>
       </div>
       <div className="navbar-end">
         <button className="btn btn-ghost btn-circle">

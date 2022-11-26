@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const MyProducts = () => {
   const { user } = useContext(AuthContext);
@@ -15,7 +16,19 @@ const MyProducts = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [user?.email]);
+  }, [user?.email,myProducts]);
+
+  const handleAdvertize = (_id) => {     
+    fetch(`http://localhost:5000/products/${_id}`, {
+          method: "PUT",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.modifiedCount > 0) {
+              toast.success("Updated Succesfully");
+            }
+          });
+  };
 
   return (
     <div>
@@ -28,7 +41,8 @@ const MyProducts = () => {
           <th className='text-3xl'>Image</th>
           <th className='text-3xl'>Name</th>
           <th className='text-3xl'>Price</th>
-          <th className='text-3xl'>Payment</th>
+          <th className='text-3xl'>Status</th>
+          <th className='text-3xl'></th>
         </tr>
       </thead>
       <tbody>
@@ -38,7 +52,8 @@ const MyProducts = () => {
             <td><img className='rounded-xl' style={{width:'100px'}} src={myProduct.img} alt="" /></td>
             <td><span className='text-3xl'>{myProduct.productName}</span></td>
             <td><span className='text-3xl'>${myProduct.resalePrice}</span></td>
-            <td><button className="btn btn-md  btn-primary">available</button></td>
+            <td><div className="text-3xl text-secondary">Available</div></td>
+            <td><button onClick={()=>handleAdvertize(myProduct._id)} className="btn btn-md  btn-info">{myProduct.isAdvertized? 'Advertized' : 'Make Advertize'}</button></td>
           </tr>
         ))}
       </tbody>

@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 
 const AddProduct = () => {
-    const {user} = useContext(AuthContext)
-    const navigate = useNavigate();
-    const handleAddProduct = (event) => {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const handleAddProduct = (event) => {
     event.preventDefault();
     const form = event.target;
     const isVarified = false;
@@ -22,6 +22,7 @@ const AddProduct = () => {
     const sellerLocation = form.sellerLocation.value;
     const sellerEmail = user?.email;
     const sellerPhone = form.sellerPhone.value;
+    const disc = form.disc.value;
     const booking = {
       isVarified,
       orgPrice,
@@ -35,6 +36,8 @@ const AddProduct = () => {
       sellerLocation,
       sellerEmail,
       sellerPhone,
+      disc,
+      status:'Available',
     };
     console.log(booking);
     fetch("http://localhost:5000/product", {
@@ -46,19 +49,22 @@ const AddProduct = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
-        if(data.acknowledged){
-            toast.success('Product Added Successfuly');
-            navigate('/dashboard/myproducts/')
-            form.reset();
+        console.log(data);
+        if (data.acknowledged) {
+          toast.success("Product Added Successfuly");
+          navigate("/dashboard/myproducts/");
+          form.reset();
         }
-    })
+      })
       .catch((err) => console.error(err));
   };
   return (
     <div className="flex justify-center">
       <div className="w-full max-w-md p-8 space-y-3 rounded-xl dark:bg-gray-900 dark:text-gray-100">
-        <form onSubmit={handleAddProduct} className="space-y-6 ng-untouched ng-pristine ng-valid">
+        <form
+          onSubmit={handleAddProduct}
+          className="space-y-6 ng-untouched ng-pristine ng-valid"
+        >
           <input
             type="text"
             name="productName"
@@ -144,8 +150,16 @@ const AddProduct = () => {
             className="border w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400"
           />
 
+          <textarea
+            name="disc"
+            className="border w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400"
+            placeholder="About Your Product"
+          ></textarea>
+
           <div>
-            <button type="submit" className="btn btn-primary w-full">Submit</button>
+            <button type="submit" className="btn btn-primary w-full">
+              Submit
+            </button>
           </div>
         </form>
       </div>

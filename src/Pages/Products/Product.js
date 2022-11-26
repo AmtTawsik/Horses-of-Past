@@ -1,10 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import blueTick from "../../assects/blueTick.png";
 import { AuthContext } from "../../contexts/AuthContext";
 
 const Product = ({ product }) => {
   const { user } = useContext(AuthContext);
+  const [seller,setSeller] = useState({});
+  
   const {
     img,
     _id,
@@ -16,7 +18,15 @@ const Product = ({ product }) => {
     yearsOfUse,
     postDate,
     sellerName,
+    sellerEmail,
   } = product;
+
+  useEffect(()=>{
+    fetch(`http://localhost:5000/users/${sellerEmail}`)
+    .then(res=>res.json())
+    .then(data => setSeller(data))
+  },[sellerEmail])
+
   const handleConfirmOrder = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -76,9 +86,9 @@ const Product = ({ product }) => {
             <p>Post Time: {postDate}</p>
             <p className="flex items-center">
               Saler Name:{" "}
-              {isVarified && (
+              {seller.isVarified && (
                 <span className="mt-1">
-                  <img style={{ width: "15px" }} src={blueTick} alt="" />
+                  <img style={{ width: "18px" }} src={blueTick} alt="" />
                 </span>
               )}
               {sellerName}

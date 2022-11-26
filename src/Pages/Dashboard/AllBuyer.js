@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const AllBuyer = () => {
   const {
@@ -16,6 +17,18 @@ const AllBuyer = () => {
     },
   });
   console.log(allbuyer);
+  const handleDelete = (email) => {
+    fetch(`http://localhost:5000/users/${email}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if(data.deletedCount > 0){
+              toast.success('Deleted Successfully')
+              refetch();
+            }
+          });
+  };
   return (
     <div>
       <h2 className="text-4xl text-center font-bold mb-5">All Buyer</h2>
@@ -40,7 +53,7 @@ const AllBuyer = () => {
                   <span className="text-3xl">{buyer.email}</span>
                 </td>
                 <td>
-                  <button className="btn btn-md  btn-error">Delete</button>
+                  <button onClick={()=>handleDelete(buyer.email)} className="btn btn-md  btn-error">Delete</button>
                 </td>
               </tr>
             ))}

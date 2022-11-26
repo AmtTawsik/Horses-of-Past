@@ -44,7 +44,7 @@ const SignUp = () => {
   };
 
     const saveUser = (name, email, role) => {
-    const user = { name, email, role };
+    const user = { name, email, role, isVarified:false, };
     fetch("http://localhost:5000/users", {
       method: "POST",
       headers: {
