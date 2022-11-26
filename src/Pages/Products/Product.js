@@ -85,7 +85,7 @@ const Product = ({ product }) => {
             <p>Years Of Use: {yearsOfUse} Years</p>
             <p>Post Time: {postDate}</p>
             <p className="flex items-center">
-              Saler Name:{" "}
+              {/* Saler Name:{" "} */}
               {seller.isVarified && (
                 <span className="mt-1">
                   <img style={{ width: "18px" }} src={blueTick} alt="" />
