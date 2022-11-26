@@ -1,14 +1,11 @@
 import { async } from "@firebase/util";
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 
 const DashboardHeader = () => {
-  const {user,logOut,loading} = useContext(AuthContext);
-  console.log(user?.email)
-    
-    const navigate = useNavigate();
+  const {user,logOut} = useContext(AuthContext);
 
     const {
       data: currentUser = {},
@@ -17,8 +14,8 @@ const DashboardHeader = () => {
     } = useQuery({
       queryKey: ["allbuyer"],
       queryFn: async () => {
-        const res = await fetch(`http://localhost:5000/users/${user.email}`);
-        const data = res.json();
+        const res = await fetch(`http://localhost:5000/users/${user?.email}`);
+        const data = await res.json();
         return data;
       },
     });

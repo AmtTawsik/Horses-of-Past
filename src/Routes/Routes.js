@@ -7,15 +7,18 @@ import AllSeller from "../Pages/Dashboard/AllSeller";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import MyOrders from "../Pages/Dashboard/MyOrders";
 import MyProducts from "../Pages/Dashboard/MyProducts";
+import Payment from "../Pages/Dashboard/Payment/Payment";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/Login/SignUp";
 import Products from "../Pages/Products/Products";
+import ErrorPage from "../Pages/Shared/ErrorPage";
 
 export const routes = createBrowserRouter([
     {
         path:'/',
         element:<Main></Main>,
+        errorElement:<ErrorPage></ErrorPage>,
         children:[
             {
                 path:'/',
@@ -43,6 +46,7 @@ export const routes = createBrowserRouter([
     {
         path:'/dashboard',
         element:<DashboardLayout></DashboardLayout>,
+        errorElement:<ErrorPage></ErrorPage>,
         children:[
             {
                 path:'/dashboard',
@@ -69,6 +73,11 @@ export const routes = createBrowserRouter([
                 path:`/dashboard/allseller`,
                 element:<AllSeller></AllSeller>
             },
+            {
+                path:'/dashboard/payment/:id',
+                element:<Payment></Payment>,
+                loader:({params})=>fetch(`http://localhost:5000/bookings/${params.id}`)
+            }
         ]
     }
 ])
