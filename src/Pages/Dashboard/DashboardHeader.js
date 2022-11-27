@@ -7,7 +7,7 @@ import Loading from "../Shared/Loading";
 
 const DashboardHeader = () => {
   const {user,logOut,loading} = useContext(AuthContext);
-  const [currentUser,setCurrentUser] = useState({});
+  
     // const {
     //   data: currentUser = {},
     //   refetch,
@@ -26,7 +26,7 @@ const DashboardHeader = () => {
       .then(res=>res.json())
       .then(data =>setCurrentUser(data))
     },[user?.email])
-
+    const [currentUser,setCurrentUser] = useState({});
     const role = currentUser.role;
     const handleLogout = () =>{
       logOut();
@@ -35,7 +35,7 @@ const DashboardHeader = () => {
       return <Loading></Loading>
     }
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-teal-200">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost btn-circle">

@@ -5,14 +5,12 @@ import { AuthContext } from "../../contexts/AuthContext";
 const Moddal = ({ setSelectProduct, selectProduct }) => {
   const { user } = useContext(AuthContext);
   const { img, _id, productName, resalePrice } = selectProduct;
-  console.log(productName);
 
   const handleConfirmOrder = (event) => {
     event.preventDefault();
     const form = event.target;
-    // form.reset();
     const buyersName = form.name.value;
-    const buyersEmail = user.email;
+    const buyersEmail = user?.email;
     const number = form.number.value;
     const location = form.location.value;
     const booking = {
@@ -36,9 +34,8 @@ const Moddal = ({ setSelectProduct, selectProduct }) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.acknowledged) {
-          toast.success("Product added Successfuly!");
-          
           setSelectProduct(null);
+          toast.success("Product added Successfuly!");
           form.reset();
         }
         else{

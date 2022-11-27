@@ -30,6 +30,18 @@ const Product = ({ product,setSelectProduct,selectProduct }) => {
     .then(data => setSeller(data))
   },[sellerEmail])
 
+  const handleReport = (id) => {
+    fetch(`http://localhost:5000/report/${id}`, {
+          method: "PUT",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.modifiedCount > 0) {
+              toast.success("Reported Successfully");
+            }
+          });
+  };
+
   if(!product.isAvailable){
     return;
   }
@@ -65,9 +77,10 @@ const Product = ({ product,setSelectProduct,selectProduct }) => {
               {sellerName}
             </p>
           </div>
+          {/* className="badge badge-outline" */}
           <div className="card-actions justify-end">
-            <div className="badge badge-outline">Report to Admin</div>
-            <label onClick={()=>setSelectProduct(product)} htmlFor="my-modal" className="badge badge-outline">
+            <label onClick={()=>handleReport(_id)} className="btn btn-xs btn-error">Report to Admin</label>
+            <label className="btn btn-xs btn-info" onClick={()=>setSelectProduct(product)} htmlFor="my-modal">
               Book Now
             </label>
           </div>

@@ -17,7 +17,7 @@ const Categories = () => {
           <figure><img className="w-full" style={{height:'220px'}} src={category.picture} alt="Shoes" /></figure>
           <div className="card-body">
             <h2 className="card-title">{category.brandName}</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
+            <p>Number One Product In This World!</p>
             <div className="card-actions justify-end">
               <Link to={`/categories/${category.brandName}`} className="btn btn-primary">See All Products</Link>
             </div>

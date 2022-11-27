@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Main from "../layouts/Main";
+import Blogs from "../Pages/Blogs/Blogs";
 import AddProduct from "../Pages/Dashboard/AddProduct";
 import AllBuyer from "../Pages/Dashboard/AllBuyer";
 import AllSeller from "../Pages/Dashboard/AllSeller";
@@ -8,6 +9,7 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import MyOrders from "../Pages/Dashboard/MyOrders";
 import MyProducts from "../Pages/Dashboard/MyProducts";
 import Payment from "../Pages/Dashboard/Payment/Payment";
+import ReportedItems from "../Pages/Dashboard/ReportedItems";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/Login/SignUp";
@@ -37,6 +39,10 @@ export const routes = createBrowserRouter([
             {
                 path:'/signup',
                 element:<SignUp></SignUp>
+            },
+            {
+                path:'/blog',
+                element:<Blogs></Blogs>
             },
             {
                 path:'/categories/:brandName',
@@ -74,6 +80,10 @@ export const routes = createBrowserRouter([
             {
                 path:`/dashboard/allseller`,
                 element:<AdminRoute><AllSeller></AllSeller></AdminRoute>
+            },
+            {
+                path:`/dashboard/reporteditems`,
+                element:<AdminRoute><ReportedItems></ReportedItems></AdminRoute>
             },
             {
                 path:'/dashboard/payment/:id',

@@ -30,6 +30,19 @@ const MyProducts = () => {
           });
   };
 
+  const handleDelete =(id)=>{
+    fetch(`http://localhost:5000/myproduct/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if(data.deletedCount > 0){
+          toast.success('Deleted Successfully')
+         
+        }
+      });
+  }
+
   return (
     <div>
   <h2 className="text-4xl text-center font-bold mb-5">My Products</h2>
@@ -42,7 +55,8 @@ const MyProducts = () => {
           <th className='text-3xl'>Name</th>
           <th className='text-3xl'>Price</th>
           <th className='text-3xl'>Status</th>
-          <th className='text-3xl'></th>
+          <th className='text-3xl'>Authorize</th>
+          <th className='text-3xl'>Remove</th>
         </tr>
       </thead>
       <tbody>
@@ -66,6 +80,7 @@ const MyProducts = () => {
               :
               <td className="text-red-500 text-3xl font-bold">Not Available</td>
             }
+            <td><button onClick={()=>handleDelete(myProduct._id)} className="btn btn-md btn-error">Delete</button></td>
           </tr>
         ))}
       </tbody>
