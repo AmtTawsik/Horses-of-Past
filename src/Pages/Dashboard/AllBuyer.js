@@ -1,23 +1,22 @@
-import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import Loading from "../Shared/Loading";
 
 const AllBuyer = () => {
   const {
-    data: allbuyer = [],
+    data: allBuyer = [],
     refetch,
     isLoading,
   } = useQuery({
-    queryKey: ["allbuyer"],
+    queryKey: ["allBuyer"],
     queryFn: async () => {
       const res = await fetch(`http://localhost:5000/users?role=buyer`);
-      const data = res.json();
+      const data = await res.json();
       return data;
     },
   });
-  console.log(allbuyer);
+
+  
   const handleDelete = (email) => {
     fetch(`http://localhost:5000/users/${email}`, {
           method: "DELETE",
@@ -34,6 +33,7 @@ const AllBuyer = () => {
   if(isLoading){
     <Loading></Loading>
   }
+
   return (
     <div>
       <h2 className="text-4xl text-center font-bold mb-5">All Buyer</h2>
@@ -48,7 +48,7 @@ const AllBuyer = () => {
             </tr>
           </thead>
           <tbody>
-            {allbuyer.map((buyer, idx) => (
+            {allBuyer.map((buyer, idx) => (
               <tr key={idx}>
                 <td>{idx + 1}</td>
                 <td>
@@ -57,6 +57,7 @@ const AllBuyer = () => {
                 <td>
                   <span className="text-3xl">{buyer.email}</span>
                 </td>
+                
                 <td>
                   <button onClick={()=>handleDelete(buyer.email)} className="btn btn-md  btn-error">Delete</button>
                 </td>
@@ -65,11 +66,7 @@ const AllBuyer = () => {
           </tbody>
         </table>
       </div>
-      <div className="text-center my-10">
-        <Link to="/" className="btn btn-primary">
-          Go Back Home
-        </Link>
-      </div>
+      
     </div>
   );
 };

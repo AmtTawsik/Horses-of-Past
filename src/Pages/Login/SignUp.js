@@ -28,8 +28,12 @@ const SignUp = () => {
         saveUser(name, email, role);
         toast.success("User Created Successfully");
         form.reset();
+        setLoading(false)
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error)
+        setLoading(false)
+      });
   };
 
   // Take UserName and Picture

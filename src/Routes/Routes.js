@@ -13,6 +13,8 @@ import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/Login/SignUp";
 import Products from "../Pages/Products/Products";
 import ErrorPage from "../Pages/Shared/ErrorPage";
+import AdminRoute from "./AdminRoute";
+import PrivateRoute from "./PrivateRoute";
 
 export const routes = createBrowserRouter([
     {
@@ -38,7 +40,7 @@ export const routes = createBrowserRouter([
             },
             {
                 path:'/categories/:brandName',
-                element:<Products></Products>,
+                element:<PrivateRoute><Products></Products></PrivateRoute>,
                 loader: ({params}) => fetch(`http://localhost:5000/categories/${params.brandName}`)
             },
         ]
@@ -50,11 +52,11 @@ export const routes = createBrowserRouter([
         children:[
             {
                 path:'/dashboard',
-                element:<Dashboard></Dashboard>
+                element:<PrivateRoute><Dashboard></Dashboard></PrivateRoute>
             },
             {
                 path:`/dashboard/myorders/:email`,
-                element:<MyOrders></MyOrders>,
+                element:<PrivateRoute><MyOrders></MyOrders></PrivateRoute>,
                 loader:({params})=>fetch(`http://localhost:5000/booking/${params.email}`)
             },
             {
@@ -67,15 +69,15 @@ export const routes = createBrowserRouter([
             },
             {
                 path:`/dashboard/allbuyer`,
-                element:<AllBuyer></AllBuyer>
+                element:<AdminRoute><AllBuyer></AllBuyer></AdminRoute>
             },
             {
                 path:`/dashboard/allseller`,
-                element:<AllSeller></AllSeller>
+                element:<AdminRoute><AllSeller></AllSeller></AdminRoute>
             },
             {
                 path:'/dashboard/payment/:id',
-                element:<Payment></Payment>,
+                element:<PrivateRoute><Payment></Payment></PrivateRoute>,
                 loader:({params})=>fetch(`http://localhost:5000/bookings/${params.id}`)
             }
         ]

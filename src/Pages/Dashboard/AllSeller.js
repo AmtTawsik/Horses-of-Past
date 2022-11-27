@@ -15,7 +15,7 @@ const AllSeller = () => {
     queryKey: ["allSeller"],
     queryFn: async () => {
       const res = await fetch(`http://localhost:5000/users?role=seller`);
-      const data = res.json();
+      const data = await res.json();
       return data;
     },
   });
@@ -89,11 +89,7 @@ const AllSeller = () => {
           </tbody>
         </table>
       </div>
-      <div className="text-center my-10">
-        <Link to="/" className="btn btn-primary">
-          Go Back Home
-        </Link>
-      </div>
+      
     </div>
   );
 };

@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useLoaderData } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
 import Moddal from "../Home/Moddal";
+import Loading from "../Shared/Loading";
 import Product from "./Product";
 
 const Products = () => {
+  // const {setLoading,loading}=useContext(AuthContext);
+  // setLoading(true)
   const products = useLoaderData();
   console.log(products)
   const [selectProduct,setSelectProduct] = useState(null)
-  
+  // setLoading(false)
+  // if(loading){
+  //   <Loading></Loading>
+  // }
   return (
     <div>
       <h2 className="text-center font-bold text-4xl">

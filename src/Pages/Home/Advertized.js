@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import Product from '../Products/Product';
 import Loading from '../Shared/Loading';
+import Moddal from './Moddal';
 
 const Advertized = () => {
     const {
@@ -25,7 +26,7 @@ const Advertized = () => {
     return (
         <>
         {
-            products.length &&
+            products.length > 0 &&
             <div>
                 <h1 className='text-center text-5xl font-bold text-secondary mt-5'>All Advertized Product</h1>
                 <div className="grid md:grid-cols-3 gap-4 my-7 w-10/12 mx-auto">
@@ -35,6 +36,7 @@ const Advertized = () => {
                 </div>
             </div>
         }
+        {/* <Moddal></Moddal> */}
         </>
     );
 };

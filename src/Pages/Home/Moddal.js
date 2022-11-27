@@ -41,6 +41,9 @@ const Moddal = ({ setSelectProduct, selectProduct }) => {
           setSelectProduct(null);
           form.reset();
         }
+        else{
+          toast.error('Already Booked')
+        }
       })
       .catch((err) => console.error(err));
   };

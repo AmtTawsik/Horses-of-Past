@@ -6,27 +6,33 @@ import { AuthContext } from "../../contexts/AuthContext";
 import Loading from "../Shared/Loading";
 
 const DashboardHeader = () => {
-  const {user,logOut} = useContext(AuthContext);
+  const {user,logOut,loading} = useContext(AuthContext);
+  const [currentUser,setCurrentUser] = useState({});
+    // const {
+    //   data: currentUser = {},
+    //   refetch,
+    //   isLoading,
+    // } = useQuery({
+    //   queryKey: ["currentUser"],
+    //   queryFn: async () => {
+    //     const res = await fetch(`http://localhost:5000/users/${user?.email}`);
+    //     const data = await res.json();
+    //     return data;
+    //   },
+    // });
 
-    const {
-      data: currentUser = {},
-      refetch,
-      isLoading,
-    } = useQuery({
-      queryKey: ["allbuyer"],
-      queryFn: async () => {
-        const res = await fetch(`http://localhost:5000/users/${user?.email}`);
-        const data = await res.json();
-        return data;
-      },
-    });
+    useEffect(()=>{
+      fetch(`http://localhost:5000/users/${user?.email}`)
+      .then(res=>res.json())
+      .then(data =>setCurrentUser(data))
+    },[user?.email])
 
     const role = currentUser.role;
     const handleLogout = () =>{
       logOut();
     }
-    if(isLoading){
-      <Loading></Loading>
+    if(loading){
+      return <Loading></Loading>
     }
   return (
     <div className="navbar bg-base-100">
@@ -81,6 +87,9 @@ const DashboardHeader = () => {
                 </li>
                 <li>
                   <Link to='/dashboard/allseller'>All Sellers</Link>
+                </li>
+                <li>
+                  <Link to='/dashboard/reporteditems'>Reported Items</Link>
                 </li>
               </div>
             }

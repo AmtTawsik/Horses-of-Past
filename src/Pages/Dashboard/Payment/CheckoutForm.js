@@ -1,5 +1,6 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const CheckoutForm = ({bookingData}) => {
   const [cardError, setCardError] = useState("");
@@ -9,7 +10,7 @@ const CheckoutForm = ({bookingData}) => {
   const [clientSecret,setClientSecret]=useState('');
   const stripe = useStripe();
   const elements = useElements();
-  const {resalePrice,buyersName,buyersEmail} = bookingData;
+  const {resalePrice,buyersName,buyersEmail,_id,productId} = bookingData;
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
@@ -69,8 +70,26 @@ const CheckoutForm = ({bookingData}) => {
         return;
       }
       if(paymentIntent.status === "succeeded"){
-        setSuccess('Congratulations! Your Payment Completed');
-        setTransactionId(paymentIntent.id)
+        const payment = {
+          buyersName,
+          buyersEmail,
+          resalePrice,
+          transactionId: paymentIntent.id,
+          bookingId:_id,
+          productId,
+        }
+        fetch('http://localhost:5000/payments',{
+          method: 'POST',
+          headers:{
+            "Content-Type": "application/json" 
+          },
+          body:JSON.stringify(payment)
+        })
+        .then(res => res.json())
+        .then(data=>{
+          setSuccess('Congratulations! Your Payment Completed');
+          setTransactionId(paymentIntent.id)
+        })
       }
       setProcessing(false);
 
@@ -110,6 +129,7 @@ const CheckoutForm = ({bookingData}) => {
           <p>Your transactionId: <span className="font-bold">{transactionId}</span></p>
         </div>
       }
+      <p><Link>Go Back to My Orders</Link></p>
     </>
   );
 };

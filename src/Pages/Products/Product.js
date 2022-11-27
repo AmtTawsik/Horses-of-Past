@@ -30,7 +30,9 @@ const Product = ({ product,setSelectProduct,selectProduct }) => {
     .then(data => setSeller(data))
   },[sellerEmail])
 
-  
+  if(!product.isAvailable){
+    return;
+  }
   return (
     <div>
       <div className="card w-100 bg-base-100 shadow-xl">
