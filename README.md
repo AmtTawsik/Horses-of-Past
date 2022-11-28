@@ -1,6 +1,6 @@
 # HORSES-OF-PAST #
 
-### Live Site Link : https://photo-phactory-amt.web.app/ ###
+### Live Site Link : https://horses-of-past.web.app/ ###
 
 ### Live Server Link : https://horses-of-past-server.vercel.app ###
 

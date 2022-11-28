@@ -9,13 +9,10 @@ const AboutUs = () => {
           <div className="p-10">
             <h1 className="text-secondary text-5xl font-bold">About Us</h1>
             <p className="py-6">
-              I approach photography with a romantic, fine art sensibility. My
-              imagery is understated yet evocative, resulting from clear and
-              polished creative direction that elicits light-filled, painterly
-              portraits. My use of fresh and simple composition, and natural
+            Every people have a dreame to buy his won bike we are providing some good quality of bike to people — from delicate details and décor to tantalizing food shots and couture-clad, gorgeous brides, Jen’s images have it all, and then some My use of fresh and simple composition, and natural
               light has evolved from a deep love and respect for the old masters
               - Rembrandt, Vermeer, Botticelli. I am a fiercely dedicated medium
-              format film photographer and my creative process is imaginative,
+              format film bikerider and my creative process is imaginative,
               industrious and detailed. In each capture, I aim for perfection
               and beauty.
             </p>
