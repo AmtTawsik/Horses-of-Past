@@ -5,7 +5,7 @@ const AboutUs = () => {
     <div>
       <div className="hero bg-base-200">
         <div className="hero-content flex-col lg:flex-row">
-          <img src={about} className="max-w-sm rounded-lg shadow-2xl" alt="" />
+          <img src={about} className=" rounded-lg shadow-2xl" alt="" />
           <div className="p-10">
             <h1 className="text-secondary text-5xl font-bold">About Us</h1>
             <p className="py-6">
