@@ -22,35 +22,35 @@ const AuthProvider = ({ children }) => {
 
   // Provider login function is here
   const ProviderLogin = (provider) => {
-    setLoading(true)
+    setLoading(true);
     return signInWithPopup(auth, provider);
   };
 
   // email and password create user system
 
   const createUser = (email, password) => {
-    setLoading(true)
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   // sign in with email and password system
 
   const signIn = (email, password) => {
-    setLoading(true)
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   // update profile function
 
   const updateUserProfile = (profile) => {
-    setLoading(true)
+    setLoading(true);
     return updateProfile(auth.currentUser, profile);
   };
 
   // LogOut Function
 
   const logOut = () => {
-    setLoading(true)
+    setLoading(true);
     localStorage.removeItem("Photo-Phactory-Token");
     return signOut(auth);
   };

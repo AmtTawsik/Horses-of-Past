@@ -7,8 +7,11 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../contexts/AuthContext";
 import Loading from "../Shared/Loading";
+import useToken from "../../hooks/useToken";
 
 const Login = () => {
+  const [loginUserEmail, setLoginUserEmail] = useState('');
+  const [token] = useToken(loginUserEmail);
   const { ProviderLogin, signIn, loading, setLoading } =
     useContext(AuthContext);
   const navigate = useNavigate();
@@ -17,10 +20,13 @@ const Login = () => {
   const [error, setError] = useState(" ");
 
   const from = location.state?.from?.pathname || "/";
+  if (token) {
+    navigate(from, { replace: true });
+  }
 
   const handleSignIn = (event) => {
-    setLoading(true);
     event.preventDefault();
+    setLoading(true);
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
@@ -30,30 +36,33 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
-        form.reset();
         setError(" ");
+        toast.success("Login successfull");
+        // setLoginUserEmail(email);
 
-        // jwt token start
-        const currentUser = {
-          email: user.email,
-        };
-        fetch("https://photo-phactory-server.vercel.app/jwt", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(currentUser),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            localStorage.setItem("Photo-Phactory-Token", data.token);
-            navigate(from, { replace: true });
-            setLoading(false);
-            toast.success("Login successfull");
-          });
+
+        //JWT
+        
+        fetch(`https://horses-of-past-server.vercel.app/jwt?email=${email}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.accessToken) {
+            localStorage.setItem("accessToken", data.accessToken);
+          }
+        });
+
+
+        //JWT
+        
+        
+        navigate(from, { replace: true });
+        setLoading(false);
+        form.reset();
       })
-      .catch((error) => setError(error.message));
+      .catch((error) => {
+        setError(error.message);
+        setLoading(false);
+      });
   };
 
   // Sign in With Google
@@ -63,36 +72,35 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
-        saveUser(user.displayName,user.email)
-        // jwt token start
-        const currentUser = {
-          email: user.email,
-        };
-        fetch("https://photo-phactory-server.vercel.app/jwt", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(currentUser),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            localStorage.setItem("Photo-Phactory-Token", data.token);
-            navigate(from, { replace: true });
-            setLoading(false);
-            toast.success("Login successfull");
-          });
+        saveUser(user.displayName, user.email);
+        // setLoginUserEmail(user.email);
+
+        //JWT
+        
+        fetch(`https://horses-of-past-server.vercel.app/jwt?email=${user.email}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.accessToken) {
+            localStorage.setItem("accessToken", data.accessToken);
+          }
+        });
+
+
+        //JWT
+
+        navigate(from, { replace: true });
+        setLoading(false);
+        toast.success("Login successfull");
       })
       .catch((error) => {
         console.log(error);
-        setLoading(false)
+        setLoading(false);
       });
   };
 
   const saveUser = (name, email) => {
-    const user = { name, email, role:'buyer',isVarified:false };
-    fetch("http://localhost:5000/users", {
+    const user = { name, email, role: "buyer", isVarified: false };
+    fetch("https://horses-of-past-server.vercel.app/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -104,6 +112,7 @@ const Login = () => {
         console.log(data);
       });
   };
+
   return (
     <>
       {loading ? (

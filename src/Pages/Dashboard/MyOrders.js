@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link, useLoaderData } from "react-router-dom";
 
 const MyOrders = () => {
@@ -19,7 +19,7 @@ const MyOrders = () => {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order, idx) => (
+            {orders?.map((order, idx) => (
               <tr key={idx}>
                 <td></td>
                 <td>

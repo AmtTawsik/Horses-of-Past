@@ -1,24 +1,25 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
-const CheckoutForm = ({bookingData}) => {
+const CheckoutForm = ({ bookingData }) => {
   const [cardError, setCardError] = useState("");
-  const [success,setSuccess] = useState('');
-  const [processing,setProcessing] = useState(false);
-  const [transactionId,setTransactionId] = useState('');
-  const [clientSecret,setClientSecret]=useState('');
+  const [success, setSuccess] = useState("");
+  const [processing, setProcessing] = useState(false);
+  const [transactionId, setTransactionId] = useState("");
+  const [clientSecret, setClientSecret] = useState("");
   const stripe = useStripe();
   const elements = useElements();
-  const {resalePrice,buyersName,buyersEmail,_id,productId} = bookingData;
+  const { resalePrice, buyersName, buyersEmail, _id, productId } = bookingData;
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    fetch("http://localhost:5000/create-payment-intent", {
+    fetch("https://horses-of-past-server.vercel.app/create-payment-intent", {
       method: "POST",
       headers: {
-         "Content-Type": "application/json" 
-        },
+        "Content-Type": "application/json",
+        authorization: `bearer ${localStorage.getItem("accessToken")}`,
+      },
       body: JSON.stringify({ resalePrice }),
     })
       .then((res) => res.json())
@@ -37,6 +38,7 @@ const CheckoutForm = ({bookingData}) => {
       return;
     }
 
+    // Payment Method
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card,
@@ -49,50 +51,50 @@ const CheckoutForm = ({bookingData}) => {
       setCardError("");
     }
 
-    setSuccess('');
+    setSuccess("");
     setProcessing(true);
 
-    const {paymentIntent, error: confirmError} = await stripe.confirmCardPayment(
-        clientSecret,
-        {
-          payment_method: {
-            card: card,
-            billing_details: {
-              name: buyersName,
-              email: buyersEmail,
-            },
+    const { paymentIntent, error: confirmError } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: buyersName,
+            email: buyersEmail,
           },
         },
-      );
+      });
 
-      if(confirmError){
-        setCardError(confirmError.message);
-        return;
-      }
-      if(paymentIntent.status === "succeeded"){
-        const payment = {
-          buyersName,
-          buyersEmail,
-          resalePrice,
-          transactionId: paymentIntent.id,
-          bookingId:_id,
-          productId,
-        }
-        fetch('http://localhost:5000/payments',{
-          method: 'POST',
-          headers:{
-            "Content-Type": "application/json" 
-          },
-          body:JSON.stringify(payment)
-        })
-        .then(res => res.json())
-        .then(data=>{
-          setSuccess('Congratulations! Your Payment Completed');
-          setTransactionId(paymentIntent.id)
-        })
-      }
-      setProcessing(false);
-
+      // Confirm Error
+    if (confirmError) {
+      setCardError(confirmError.message);
+      return;
+    }
+    if (paymentIntent.status === "succeeded") {
+      const payment = {
+        buyersName,
+        buyersEmail,
+        resalePrice,
+        transactionId: paymentIntent.id,
+        bookingId: _id,
+        productId,
+      };
+      fetch("https://horses-of-past-server.vercel.app/payments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: JSON.stringify(payment),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setSuccess("Congratulations! Your Payment Completed");
+          setTransactionId(paymentIntent.id);
+          toast.success("Payment Successfully");
+        });
+    }
+    setProcessing(false);
   };
 
   return (
@@ -123,13 +125,15 @@ const CheckoutForm = ({bookingData}) => {
         </button>
       </form>
       <p className="text-red-500">{cardError}</p>
-      {
-        success && <div>
+      {success && (
+        <div>
           <p className="text-green-500">{success}</p>
-          <p>Your transactionId: <span className="font-bold">{transactionId}</span></p>
+          <p>
+            <span className="text-violet-600">Your transaction Id:</span>{" "}
+            <span className="font-bold">{transactionId}</span>
+          </p>
         </div>
-      }
-      <p><Link>Go Back to My Orders</Link></p>
+      )}
     </>
   );
 };

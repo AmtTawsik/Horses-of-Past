@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../contexts/AuthContext";
+import useToken from "../../hooks/useToken";
 
 // This is SignUp Page
 const SignUp = () => {
-  const { user, createUser, updateUserProfile, loading, setLoading } =
+  const {  createUser, updateUserProfile, loading, setLoading } =
     useContext(AuthContext);
-  //   const [createdUserEmail, setCreatedUserEmail] = useState('')
+    const location = useLocation();
+    const navigate = useNavigate();
 
-  // Registration Handeler
+
+  const from = location.state?.from?.pathname || "/";
+
   const handleSubmit = (event) => {
     setLoading(true);
     event.preventDefault();
@@ -24,14 +28,28 @@ const SignUp = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
-        handleUpdateUserProfile(name, photo);
         saveUser(name, email, role);
+        //JWT
+        
+    
+      setTimeout(() => {
+        fetch(`https://horses-of-past-server.vercel.app/jwt?email=${email}`)
+              .then(res => res.json())
+              .then(data => {
+                  if (data.accessToken) {
+                      localStorage.setItem('accessToken', data.accessToken);
+                  }
+              });
+   }, 1000);
+
+        handleUpdateUserProfile(name, photo);
+        
+        setLoading(false);
         toast.success("User Created Successfully");
-        form.reset();
-        setLoading(false)
+        navigate(from, { replace: true })
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
         setLoading(false)
       });
   };
@@ -49,7 +67,7 @@ const SignUp = () => {
 
     const saveUser = (name, email, role) => {
     const user = { name, email, role, isVarified:false, };
-    fetch("http://localhost:5000/users", {
+    fetch("https://horses-of-past-server.vercel.app/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -175,7 +193,7 @@ const SignUp = () => {
                   What's Your Role?
                 </label>
                 <select name="role" className="select select-bordered block w-full mt-1 p-2 border-gray-300 rounded-md shadow-lg text-black focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                  <option selected>
+                  <option >
                     buyer
                   </option>
                   <option>seller</option>

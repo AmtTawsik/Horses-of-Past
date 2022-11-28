@@ -25,9 +25,7 @@ const Payment = () => {
       <div className="divider">Pay Now!!!</div>
       <div className="w-96 my-12">
         <Elements stripe={stripePromise}>
-          <CheckoutForm
-          bookingData={bookingData}
-          />
+          <CheckoutForm bookingData={bookingData} />
         </Elements>
       </div>
     </div>

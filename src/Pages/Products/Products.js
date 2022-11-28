@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useLoaderData } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
 import Moddal from "../Home/Moddal";
-import Loading from "../Shared/Loading";
 import Product from "./Product";
 
 const Products = () => {

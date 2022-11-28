@@ -21,17 +21,18 @@ const Product = ({ product,setSelectProduct,selectProduct }) => {
     postDate,
     sellerName,
     sellerEmail,
+    disc
   } = product;
 
 
   useEffect(()=>{
-    fetch(`http://localhost:5000/users/${sellerEmail}`)
+    fetch(`https://horses-of-past-server.vercel.app/users/${sellerEmail}`)
     .then(res=>res.json())
     .then(data => setSeller(data))
   },[sellerEmail])
 
   const handleReport = (id) => {
-    fetch(`http://localhost:5000/report/${id}`, {
+    fetch(`https://horses-of-past-server.vercel.app/report/${id}`, {
           method: "PUT",
         })
           .then((res) => res.json())
@@ -62,6 +63,7 @@ const Product = ({ product,setSelectProduct,selectProduct }) => {
             <div className="badge badge-secondary">NEW</div>
           </h2>
           <div>
+            <p>Discription:{disc}</p>
             <p>Location: {sellerLocation}</p>
             <p>Resale Price: ${resalePrice}</p>
             <p>Orginal Price: ${orgPrice}</p>

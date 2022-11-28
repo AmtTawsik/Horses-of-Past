@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
-import { async } from "@firebase/util";
-import axios from "axios";
 import toast from "react-hot-toast";
 import Loading from "../Shared/Loading";
 
@@ -14,39 +11,43 @@ const AllSeller = () => {
   } = useQuery({
     queryKey: ["allSeller"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/users?role=seller`);
+      const res = await fetch(`https://horses-of-past-server.vercel.app/users?role=seller`, {
+        headers: {
+          authorization: `bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
       const data = await res.json();
       return data;
     },
   });
 
   const handleVarify = (email) => {
-    fetch(`http://localhost:5000/users/${email}`, {
-          method: "PUT",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.modifiedCount > 0) {
-              toast.success("Updated Succesfully");
-              refetch();
-            }
-          });
+    fetch(`https://horses-of-past-server.vercel.app/users/${email}`, {
+      method: "PUT",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount > 0) {
+          refetch();
+          toast.success("Updated Succesfully");
+        }
+      });
   };
   const handleDelete = (email) => {
-    fetch(`http://localhost:5000/users/${email}`, {
-          method: "DELETE",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if(data.deletedCount > 0){
-              toast.success('Deleted Successfully')
-              refetch();
-            }
-          });
+    fetch(`https://horses-of-past-server.vercel.app/users/${email}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedCount > 0) {
+          refetch();
+          toast.success("Deleted Successfully");
+        }
+      });
   };
 
-  if(isLoading){
-    <Loading></Loading>
+  if (isLoading) {
+    <Loading></Loading>;
   }
 
   return (
@@ -59,7 +60,7 @@ const AllSeller = () => {
               <th></th>
               <th className="text-3xl">Name</th>
               <th className="text-3xl">Email</th>
-              <th className="text-3xl">Varify</th>
+              <th className="text-3xl">Status</th>
               <th className="text-3xl">Action</th>
             </tr>
           </thead>
@@ -76,20 +77,26 @@ const AllSeller = () => {
                 <td>
                   <button
                     onClick={() => handleVarify(seller.email)}
-                    className="btn btn-secondary"
+                    className="btn btn-xs btn-secondary"
                   >
-                    {seller.isVarified ? "Varified" : "Not Varified"}
+                    {seller.isVarified
+                      ? "Varified"
+                      : "unverified, Click to verify"}
                   </button>
                 </td>
                 <td>
-                  <button onClick={()=>handleDelete(seller.email)} className="btn btn-md  btn-error">Delete</button>
+                  <button
+                    onClick={() => handleDelete(seller.email)}
+                    className="btn btn-sm  btn-error"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      
     </div>
   );
 };

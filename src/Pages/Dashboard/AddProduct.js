@@ -1,4 +1,3 @@
-import { data } from "autoprefixer";
 import React, { useContext } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -37,13 +36,14 @@ const AddProduct = () => {
       sellerEmail,
       sellerPhone,
       disc,
-      isAvailable:true,
+      isAvailable: true,
     };
     console.log(booking);
-    fetch("http://localhost:5000/product", {
+    fetch("https://horses-of-past-server.vercel.app/product", {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        authorization: `bearer ${localStorage.getItem("accessToken")}`,
       },
       body: JSON.stringify(booking),
     })
@@ -75,7 +75,7 @@ const AddProduct = () => {
           />
 
           <input
-          required
+            required
             type="text"
             name="img"
             id="img"
@@ -84,7 +84,7 @@ const AddProduct = () => {
           />
 
           <input
-          required
+            required
             type="text"
             name="orgPrice"
             id="orgPrice"
@@ -92,7 +92,7 @@ const AddProduct = () => {
             className="border w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400"
           />
           <input
-          required
+            required
             type="text"
             name="resalePrice"
             id="resalePrice"
@@ -101,7 +101,7 @@ const AddProduct = () => {
           />
 
           <input
-          required
+            required
             type="text"
             name="yearsOfUse"
             id="yearsOfUse"
@@ -140,7 +140,7 @@ const AddProduct = () => {
           </div>
 
           <input
-          required
+            required
             type="sellerLocation"
             name="sellerLocation"
             id="sellerLocation"
@@ -149,7 +149,7 @@ const AddProduct = () => {
           />
 
           <input
-          required
+            required
             type="Sellers Number"
             name="sellerPhone"
             id="sellerPhone"
@@ -158,7 +158,7 @@ const AddProduct = () => {
           />
 
           <textarea
-          required
+            required
             name="disc"
             className="border w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400"
             placeholder="About Your Product"

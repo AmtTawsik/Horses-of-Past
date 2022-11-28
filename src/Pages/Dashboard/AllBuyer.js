@@ -10,28 +10,31 @@ const AllBuyer = () => {
   } = useQuery({
     queryKey: ["allBuyer"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/users?role=buyer`);
+      const res = await fetch(`https://horses-of-past-server.vercel.app/users?role=buyer`, {
+        headers: {
+          authorization: `bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
       const data = await res.json();
       return data;
     },
   });
 
-  
   const handleDelete = (email) => {
-    fetch(`http://localhost:5000/users/${email}`, {
-          method: "DELETE",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if(data.deletedCount > 0){
-              toast.success('Deleted Successfully')
-              refetch();
-            }
-          });
+    fetch(`https://horses-of-past-server.vercel.app/users/${email}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedCount > 0) {
+          toast.success("Deleted Successfully");
+          refetch();
+        }
+      });
   };
 
-  if(isLoading){
-    <Loading></Loading>
+  if (isLoading) {
+    <Loading></Loading>;
   }
 
   return (
@@ -57,16 +60,20 @@ const AllBuyer = () => {
                 <td>
                   <span className="text-3xl">{buyer.email}</span>
                 </td>
-                
+
                 <td>
-                  <button onClick={()=>handleDelete(buyer.email)} className="btn btn-md  btn-error">Delete</button>
+                  <button
+                    onClick={() => handleDelete(buyer.email)}
+                    className="btn btn-md  btn-error"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      
     </div>
   );
 };

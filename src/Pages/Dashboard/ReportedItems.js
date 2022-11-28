@@ -1,40 +1,39 @@
-import { useQuery } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
-import Loading from '../Shared/Loading';
+import { useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import Loading from "../Shared/Loading";
 
 const ReportedItems = () => {
+  const {
+    data: reportedItems = [],
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: ["reportedItems"],
+    queryFn: async () => {
+      const res = await fetch(`https://horses-of-past-server.vercel.app/report`);
+      const data = await res.json();
+      return data;
+    },
+  });
 
-    const {
-        data: reportedItems = [],
-        refetch,
-        isLoading,
-      } = useQuery({
-        queryKey: ["reportedItems"],
-        queryFn: async () => {
-          const res = await fetch(`http://localhost:5000/report`);
-          const data = await res.json();
-          return data;
-        },
+  const handleDelete = (id) => {
+    fetch(`https://horses-of-past-server.vercel.app/myproduct/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedCount > 0) {
+          toast.success("Deleted Successfully");
+          refetch();
+        }
       });
-
-    const handleDelete = (id) => {
-        fetch(`http://localhost:5000/myproduct/${id}`, {
-              method: "DELETE",
-            })
-              .then((res) => res.json())
-              .then((data) => {
-                if(data.deletedCount > 0){
-                  toast.success('Deleted Successfully')
-                  refetch();
-                }
-              });
-      };
-      if(isLoading){
-        <Loading></Loading>
-      }
-    //   console.log(reportedItems)
-    return (
-        <div>
+  };
+  if (isLoading) {
+    <Loading></Loading>;
+  }
+  //   console.log(reportedItems)
+  return (
+    <div>
       <h2 className="text-4xl text-center font-bold mb-5">Reported Items</h2>
       <div className="overflow-x-auto">
         <table className="table w-full">
@@ -56,18 +55,23 @@ const ReportedItems = () => {
                 <td>
                   <span className="text-3xl">{items.categoryName}</span>
                 </td>
-                
+
+                {/* Delete Button */}
                 <td>
-                  <button onClick={()=>handleDelete(items._id)} className="btn btn-sm  btn-error">Delete</button>
+                  <button
+                    onClick={() => handleDelete(items._id)}
+                    className="btn btn-sm  btn-error"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      
     </div>
-    );
+  );
 };
 
 export default ReportedItems;

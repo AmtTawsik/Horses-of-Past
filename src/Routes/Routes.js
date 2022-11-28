@@ -47,7 +47,7 @@ export const routes = createBrowserRouter([
             {
                 path:'/categories/:brandName',
                 element:<PrivateRoute><Products></Products></PrivateRoute>,
-                loader: ({params}) => fetch(`http://localhost:5000/categories/${params.brandName}`)
+                loader: ({params}) => fetch(`https://horses-of-past-server.vercel.app/categories/${params.brandName}`)
             },
         ]
     },
@@ -63,7 +63,11 @@ export const routes = createBrowserRouter([
             {
                 path:`/dashboard/myorders/:email`,
                 element:<PrivateRoute><MyOrders></MyOrders></PrivateRoute>,
-                loader:({params})=>fetch(`http://localhost:5000/booking/${params.email}`)
+                loader:({params})=>fetch(`https://horses-of-past-server.vercel.app/booking/${params.email}`,{
+                    headers: {
+                        authorization: `bearer ${localStorage.getItem('accessToken')}`
+                    }
+                })
             },
             {
                 path:`/dashboard/myproducts/`,
@@ -88,7 +92,7 @@ export const routes = createBrowserRouter([
             {
                 path:'/dashboard/payment/:id',
                 element:<PrivateRoute><Payment></Payment></PrivateRoute>,
-                loader:({params})=>fetch(`http://localhost:5000/bookings/${params.id}`)
+                loader:({params})=>fetch(`https://horses-of-past-server.vercel.app/bookings/${params.id}`)
             }
         ]
     }

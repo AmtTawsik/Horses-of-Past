@@ -19,15 +19,16 @@ const Moddal = ({ setSelectProduct, selectProduct }) => {
       productName,
       productId: _id,
       resalePrice,
-      number:number,
-      location:location,
+      number: number,
+      location: location,
       img,
     };
-    console.log('booking....',booking);
-    fetch("http://localhost:5000/booking", {
+    console.log("booking....", booking);
+    fetch("https://horses-of-past-server.vercel.app/booking", {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        authorization: `bearer ${localStorage.getItem("accessToken")}`,
       },
       body: JSON.stringify(booking),
     })
@@ -37,9 +38,8 @@ const Moddal = ({ setSelectProduct, selectProduct }) => {
           setSelectProduct(null);
           toast.success("Product added Successfuly!");
           form.reset();
-        }
-        else{
-          toast.error('Already Booked')
+        } else {
+          toast.error("Already Booked");
         }
       })
       .catch((err) => console.error(err));
@@ -52,22 +52,32 @@ const Moddal = ({ setSelectProduct, selectProduct }) => {
           <h3 className="font-bold text-lg">Book This Product Now!</h3>
 
           <div className="mb-1">
-              <label htmlFor="" className="block text-sm font-medium text-primary undefined">Product Name</label>
-              <div className="flex flex-col items-start border border-primary py-2 rounded-lg">
-                <h2 className="px-3 py-1">
-                  <span className="">{productName}</span>
-                </h2>
-              </div>
+            <label
+              htmlFor=""
+              className="block text-sm font-medium text-primary undefined"
+            >
+              Product Name
+            </label>
+            <div className="flex flex-col items-start border border-primary py-2 rounded-lg">
+              <h2 className="px-3 py-1">
+                <span className="">{productName}</span>
+              </h2>
             </div>
+          </div>
 
-            <div className="mb-1">
-              <label htmlFor="" className="block text-sm font-medium text-primary undefined">Product Price</label>
-              <div className="flex flex-col items-start border border-primary py-2 rounded-lg">
-                <h2 className="px-3 py-1">
-                  <span className="">${resalePrice}</span>
-                </h2>
-              </div>
+          <div className="mb-1">
+            <label
+              htmlFor=""
+              className="block text-sm font-medium text-primary undefined"
+            >
+              Product Price
+            </label>
+            <div className="flex flex-col items-start border border-primary py-2 rounded-lg">
+              <h2 className="px-3 py-1">
+                <span className="">${resalePrice}</span>
+              </h2>
             </div>
+          </div>
 
           <form onSubmit={handleConfirmOrder}>
             <div>
@@ -109,9 +119,7 @@ const Moddal = ({ setSelectProduct, selectProduct }) => {
             </div>
 
             <div>
-              <label
-                className="block text-sm font-medium text-primary undefined"
-              >
+              <label className="block text-sm font-medium text-primary undefined">
                 Meating Location
               </label>
               <div className="flex flex-col items-start">
@@ -125,9 +133,7 @@ const Moddal = ({ setSelectProduct, selectProduct }) => {
             </div>
 
             <div>
-              <label
-                className="block text-sm font-medium text-primary undefined"
-              >
+              <label className="block text-sm font-medium text-primary undefined">
                 Phone Number
               </label>
               <div className="flex flex-col items-start">
@@ -141,7 +147,11 @@ const Moddal = ({ setSelectProduct, selectProduct }) => {
             </div>
 
             <div className="flex items-end justify-between">
-              <label onClick={()=>setSelectProduct(null)} htmlFor="my-modal" className="btn">
+              <label
+                onClick={() => setSelectProduct(null)}
+                htmlFor="my-modal"
+                className="btn"
+              >
                 Cancel
               </label>
               <button type="submit" className="modal-action">
