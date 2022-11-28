@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import Product from "../Products/Product";
 import Loading from "../Shared/Loading";
+import Add from "./Add";
 import Moddal from "./Moddal";
 
 const Advertized = () => {
@@ -36,7 +37,7 @@ const Advertized = () => {
           </h1>
           <div className="grid md:grid-cols-3 gap-4 my-7 w-10/12 mx-auto">
             {products.map((product, idx) => (
-              <Product key={idx} product={product}></Product>
+              <Add key={idx} product={product}></Add>
             ))}
           </div>
         </div>
